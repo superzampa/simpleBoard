@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  * The Table annotation specifies the name for the table in the db.
  */
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
 
   // ------------------------
@@ -26,7 +26,7 @@ public class User {
   private int user_id;
   
   @NotNull
-  private String username;
+  private String USERname;
   
   @NotNull
   private String name;
@@ -39,13 +39,13 @@ public class User {
 
   @NotNull
   private String user_type;
-
+  
   // ------------------------
   // PUBLIC METHODS
   // ------------------------
   
   public User(String username, String name, String email, String password, String user_type) {
-    this.username = username;
+    this.USERname = username;
     this.name = name;
 	this.email = email;
     this.password = password;
@@ -59,25 +59,25 @@ public class User {
     return user_id;
   }
   
-  public String getName() {
-	    return name;
+  public String getname() {
+	return name;
   }
 
-  public void setName(String value) {
+  public void setname(String value) {
     this.name = value;
   }
   
 
-  public String getEmail() {
+  public String getemail() {
     return email;
   }
   
-  public void setEmail(String value) {
+  public void setemail(String value) {
     this.email = value;
   }
   
 
-  public void setPassword(String password) {
+  public void setpassword(String password) {
     this.password = password;
   }
   
@@ -87,6 +87,6 @@ public class User {
   
   public String getUserType(String user_type) {
 	    return user_type;
-}
+  }
   
 } // class User

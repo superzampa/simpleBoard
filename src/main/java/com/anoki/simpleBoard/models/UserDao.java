@@ -50,7 +50,7 @@ public class UserDao {
    */
   @SuppressWarnings("unchecked")
   public List<User> getAll() {
-    return entityManager.createQuery("from User").getResultList();
+    return entityManager.createQuery("from USER").getResultList();
   }
   
   /**
@@ -58,8 +58,8 @@ public class UserDao {
    */
   public User getByEmail(String email) {
     return (User) entityManager.createQuery(
-        "from User where email = :email")
-        .setParameter("email", email)
+        "from USER where EMAIL = :email")
+        .setParameter("EMAIL", email)
         .getSingleResult();
   }
 

@@ -22,8 +22,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-bin/.mvn/wrapper/maven-wrapper.jar
-bin/.mvn/wrapper/maven-wrapper.jar
-bin/.mvn/wrapper/maven-wrapper.properties
-bin/.mvn/wrapper/maven-wrapper.jar
-bin/.mvn/wrapper/maven-wrapper.jar
