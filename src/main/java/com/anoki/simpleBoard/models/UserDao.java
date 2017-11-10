@@ -6,22 +6,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * This class is used to access data for the User entity.
- * Repository annotation allows the component scanning support to find and 
- * configure the DAO wihtout any XML configuration and also provide the Spring 
- * exceptiom translation.
- * Since we've setup setPackagesToScan and transaction manager on
- * DatabaseConfig, any bean method annotated with Transactional will cause
- * Spring to magically call begin() and commit() at the start/end of the
- * method. If exception occurs it will also call rollback().
- */
 @Repository
 @Transactional
 public class UserDao {
   
+  // An EntityManager will be automatically injected from entityManagerFactory
+  // setup on DatabaseConfig class.
+  @PersistenceContext
+  private EntityManager entityManager;
+	
   // ------------------------
   // PUBLIC METHODS
   // ------------------------
@@ -48,10 +45,12 @@ public class UserDao {
   /**
    * Return all the users stored in the database.
    */
+  
   @SuppressWarnings("unchecked")
-  public List<User> getAll() {
-    return entityManager.createQuery("from USER").getResultList();
+  public List<User> findAll() {
+    return entityManager.createQuery("select * from users").getResultList();
   }
+  
   
   /**
    * Return the user having the passed email.
@@ -66,9 +65,9 @@ public class UserDao {
   /**
    * Return the user having the passed id.
    */
-  public User getById(long id) {
-    return entityManager.find(User.class, id);
-  }
+  //public User getById(long id) {
+  //  return entityManager.find(User.class, id);
+  //}
 
   /**
    * Update the passed user in the database.
@@ -82,42 +81,4 @@ public class UserDao {
   // PRIVATE FIELDS
   // ------------------------
   
-  // An EntityManager will be automatically injected from entityManagerFactory
-  // setup on DatabaseConfig class.
-  @PersistenceContext
-  private EntityManager entityManager;
-  
 } // class UserDao
-
-
-
-/*
-
-import javax.transaction.Transactional;
-
-import org.springframework.data.repository.CrudRepository;
-
-/**
- * A DAO for the entity User is simply created by extending the CrudRepository
- * interface provided by spring. The following methods are some of the ones
- * available from such interface: save, delete, deleteAll, findOne and findAll.
- * The magic is that such methods must not be implemented, and moreover it is
- * possible create new query methods working only by defining their signature!
- * 
- */
-
-/*
-@Transactional
-public interface UserDao extends CrudRepository<User, Long> {
-
-  /**
-   * Return the user having the passed email or null if no user is found.
-   * 
-   * @param email the user email.
-   */
-  /*
-  public User findByEmail(String email);
-
-} // class UserDao
-
-*/

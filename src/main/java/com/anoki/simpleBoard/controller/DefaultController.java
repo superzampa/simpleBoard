@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.anoki.simpleBoard.models.PostDao;
+import com.anoki.simpleBoard.models.UserDao;
 
 @Controller
 public class DefaultController {
@@ -14,6 +15,7 @@ public class DefaultController {
 	
     @Autowired
 	PostDao postDao;
+    UserDao userDao;
 	
     @GetMapping("/")
     public String home1() {
@@ -49,6 +51,7 @@ public class DefaultController {
 	public ModelAndView getPosts() {
     	ModelAndView posts = new ModelAndView("posts");
     	posts.addObject("postList", postDao.findAll());
+    	posts.addObject("userList", userDao.findAll());
     	
     return posts;
 	}

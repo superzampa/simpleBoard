@@ -3,9 +3,13 @@ package com.anoki.simpleBoard.models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -29,7 +33,9 @@ public class Post {
   private int id_post;
   
   @NotNull
-  private User id_user;
+  @ManyToOne(targetEntity=User.class, fetch=FetchType.EAGER)
+  @JoinColumn(name="id_user")
+  private User user;
   
   @NotNull
   private String text;
@@ -49,17 +55,17 @@ public class Post {
   
   public Post() {}
   
-  public Post(User id_user, String text) {
-    this.id_user =  id_user;
+  public Post(User user, String text) {
+    this.user =  user;
     this.text = text;
   }
 
   
   // Getter and setter methods
-
-  public Post(int id_post, User id_user, String text, String hidden, String hidden_BY, String deleted) {
+  
+  public Post(int id_post, User user, String text, String hidden, String hidden_by, String deleted) {
 	this.id_post = id_post;
-	this.id_user = id_user;
+	this.user = user;
 	this.text = text;
 	this.hidden = hidden;
 	this.hidden_by = hidden_by;
@@ -71,12 +77,11 @@ public int getId() {
     return id_post;
   }
   
-
-  public User getIdUser() {
-	return id_user;
+  public void setUser(User user) {
+	this.user = user;
   }
   
-  public String gettext() {
+  public String getText() {
 	return text;
   }
 
@@ -108,6 +113,15 @@ public int getId() {
   public void setdeleted(String deleted) {
 	this.deleted = deleted;
   }
+  
+  public User getUser() {
+	return user;
+  }
+  
+  //@OneToOne(targetEntity=User.class, mappedBy = "id_user", fetch=FetchType.EAGER)
+  //public User getUser() {
+  //	return user;
+  //}
   
   
 } // class Post

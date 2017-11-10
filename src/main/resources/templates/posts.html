@@ -16,13 +16,21 @@
 	      <tbody>
 	      <th:block scope="row" th:each="post : ${postList}">
 	      	 <tr>
-	            <td th:text="${post.getIdUser()}"></td>
+	            <td th:text="${post.getUser().getName()}"></td>
 	            <td th:text="${post.getText()}"></td>
 	         </tr>	         
 	      </th:block>
 	      <tr>   
-	         <th class="col">Author</th>
-	         <th class="col">Text</th>
+	         <td class="col">
+	         	<!--  <input type="text" class="form-control" id="author"></input> -->
+	         	<select class="form-control"  id="dropOperator">
+				    <option value="0" th:text="select userList" ></option>
+				    <option th:each="user : ${userList}" th:value="${user.getId()}" th:text="${user.getName()}"></option>
+				 </select>
+	         </td>
+	         <td class="col">
+	         	<input type="text" class="form-control" id="text"></input>
+	         </td>
 	      </tr>
 	      
 	      </tbody>
