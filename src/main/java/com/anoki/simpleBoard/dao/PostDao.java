@@ -1,4 +1,4 @@
-package com.anoki.simpleBoard.models;
+package com.anoki.simpleBoard.dao;
 
 import java.util.List;
 
@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.anoki.simpleBoard.models.Post;
 
 @Repository
 @Transactional

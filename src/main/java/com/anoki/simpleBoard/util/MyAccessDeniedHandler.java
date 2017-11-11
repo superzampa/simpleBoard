@@ -1,4 +1,4 @@
-package com.anoki.simpleBoard.controller;
+package com.anoki.simpleBoard.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

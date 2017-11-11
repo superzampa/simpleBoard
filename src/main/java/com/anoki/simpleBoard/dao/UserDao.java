@@ -1,4 +1,4 @@
-package com.anoki.simpleBoard.models;
+package com.anoki.simpleBoard.dao;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.anoki.simpleBoard.models.User;
 
 @Repository
 @Transactional
@@ -61,6 +63,13 @@ public class UserDao {
         .setParameter("EMAIL", email)
         .getSingleResult();
   }
+  
+  public User getByName(String name) {
+	    return (User) entityManager.createQuery(
+	        "from USER where NAME = :name")
+	        .setParameter("name", name)
+	        .getSingleResult();
+	  }
 
   /**
    * Return the user having the passed id.

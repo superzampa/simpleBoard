@@ -2,19 +2,25 @@ package com.anoki.simpleBoard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.anoki.simpleBoard.models.PostDao;
-import com.anoki.simpleBoard.models.UserDao;
+import com.anoki.simpleBoard.dao.PostDao;
+import com.anoki.simpleBoard.dao.UserDao;
+import com.anoki.simpleBoard.models.Post;
+import com.anoki.simpleBoard.service.PostService;
 
 @Controller
 public class DefaultController {
 
 	
     @Autowired
-	PostDao postDao;
+	PostService postService;
     UserDao userDao;
 	
     @GetMapping("/")
@@ -47,15 +53,21 @@ public class DefaultController {
         return "login";
     }
     
-    @RequestMapping("/posts")
+    @GetMapping("/posts")
 	public ModelAndView getPosts() {
     	ModelAndView posts = new ModelAndView("posts");
-    	posts.addObject("postList", postDao.findAll());
-    	posts.addObject("userList", userDao.findAll());
-    	
+    	posts.addObject("postList", postService.findAll());
+    	posts.addObject("post", new Post());
+    	//posts.addObject("userList", userDao.findAll());    	
     return posts;
 	}
 
+    @PostMapping("/posts")
+    public String greetingSubmit(@ModelAttribute(value="post") Post post, BindingResult bindingResult, Model model) {
+    	postService.addPost(post);
+        return "posts";
+    }
+    
     @GetMapping("/403")
     public String error403() {
         return "error/403";

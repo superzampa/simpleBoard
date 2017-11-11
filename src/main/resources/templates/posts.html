@@ -6,6 +6,7 @@
    <body>
    <div th:replace="fragments/header :: header"/>
       <div class = "container">
+      <form action="#" th:action="@{/saveNewPost}" th:object="${post}" method="post">
       <table class="table">
 	      <thead class="thead-default">
 	      <tr>   
@@ -22,20 +23,18 @@
 	      </th:block>
 	      <tr>   
 	         <td class="col">
-	         	<!--  <input type="text" class="form-control" id="author"></input> -->
-	         	<select class="form-control"  id="dropOperator">
-				    <option value="0" th:text="select userList" ></option>
-				    <option th:each="user : ${userList}" th:value="${user.getId()}" th:text="${user.getName()}"></option>
-				 </select>
+	         	<input type="text" class="form-control" th:field="*{author}" id="author" placeholder="Insert new author..."></input>
 	         </td>
 	         <td class="col">
-	         	<input type="text" class="form-control" id="text"></input>
+	         	<input type="text" class="form-control" th:field="*{text}" placeholder="Insert new text..."></input>
 	         </td>
 	      </tr>
 	      
 	      </tbody>
       </table>
-      </div>
+      <input type="submit" class="btn btn-info" value="Save"></input>
+      </form>
+      </div>     
 <div th:replace="fragments/footer :: footer"/>
 
 </body>
