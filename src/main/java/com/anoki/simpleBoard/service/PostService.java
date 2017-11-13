@@ -23,12 +23,16 @@ public class PostService{
 	}
 	
 	public void addPost(String author, String text) {
-		User user = userDao.getByName(author);
-		Post post = new Post(user, text);
-		postDao.save(post);
+	//	User user = userDao.getByName(author);
+	//	Post post = new Post(user, text);
+	//	postDao.save(post);
 	}
 	
 	public void addPost(Post post) {
 		postDao.save(post);
+	}
+	
+	public void deletePost(Post post) {
+		postDao.delete(post);
 	}
 }
