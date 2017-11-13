@@ -24,6 +24,8 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 	  
 	public List<Post> findAll();
 
+    @Transactional
+    Long deleteByIdPost(Integer idPost);
   
 } // class PostDao
 

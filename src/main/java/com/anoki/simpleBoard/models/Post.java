@@ -73,11 +73,11 @@ public class Post {
 }
 
 
-public int getId() {
+public int getIdPost() {
     return idPost;
   }
 
-public void setId(int idPost) {
+public void setIdPost(int idPost) {
     this.idPost = idPost;
   }
   

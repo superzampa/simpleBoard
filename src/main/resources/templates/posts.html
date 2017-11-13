@@ -6,7 +6,6 @@
    <body>
    <div th:replace="fragments/header :: header"/>
       <div class = "container">
-      <form action="#" th:action="@{/updatePost}" th:object="${post}" method="post">
       <table class="table">
 	      <thead class="thead-default">
 	      <tr>   
@@ -20,22 +19,24 @@
 	      	 <tr>
 	            <td th:text="${post.getUser().getName()}"></td>
 	            <td th:text="${post.getText()}"></td>
+<!-- 	            <td>
+					<input type="hidden" th:field="*{idPost}"/>
+					<input type="hidden" th:field="*{user}"/>
+					<input type="hidden" th:field="*{text}"/>
+					<button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+	            </td> --> 
 	            <td>
-	            	<input type="hidden" th:field="*{idPost}"/>
-	            	<input type="hidden" th:field="*{user}"/>
-	            	<input type="hidden" th:field="*{text}"/>
-	            	<input type="hidden" th:field="*{idPost}"/>
-              		<button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+	             <form th:action="@{/deletePost}" th:object="${post}" method="post">
+		            <input type="hidden" th:value="${post.idPost}" th:id="idPost" th:name="idPost" />
+		            <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+					<!--<a th:href="|@{/deletePost/${post.getIdPost()}}|" class="btn btn-danger">Delete</a> -->
+		        </form>
 	            </td>
-	            
-	            <!--<td><a th:href="|@{/deletePost/${post}}|" class="btn btn-danger">Delete</a></td>-->
-	            
-	            
-	      
 	            
 	         </tr>	         
 	      </th:block>
 	      <tr>   
+	      <form action="#" th:action="@{/updatePost}" th:object="${post}" method="post">
 	         <td class="col">
 	         	<!--<input type="text" class="form-control" th:field="*{id_post}" id="author" placeholder="Insert new author..."></input> -->
 	         	<select class="form-control" th:field="*{user}" id="dropOperator">
@@ -43,16 +44,17 @@
 				    <option th:each="user : ${userList}" th:value="${user.getId()}" th:text="${user.getName()}"></option>
 				 </select>
 	         </td>
-	         
 	         <td class="col">
+	         
 	         	<input type="text" class="form-control" th:field="*{text}" placeholder="Insert new text..."/>
+
 	         </td>
+	         <td class="col"><input type="submit" class="btn btn-info" name="action" value="save"/></td>
+	      </form>
 	      </tr>
 	      
 	      </tbody>
       </table>
-      <input type="submit" class="btn btn-info" name="action" value="save">Save</input>
-      </form>
       </div>     
 <div th:replace="fragments/footer :: footer"/>
 

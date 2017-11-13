@@ -35,4 +35,8 @@ public class PostService{
 	public void deletePost(Post post) {
 		postDao.delete(post);
 	}
+	
+	public void deletePostByIdPost(int idPost) {
+		postDao.deleteByIdPost(idPost);
+	}
 }
