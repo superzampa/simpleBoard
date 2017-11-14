@@ -2,16 +2,22 @@ package com.anoki.simpleBoard.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 /**
@@ -48,6 +54,13 @@ public class Post {
 
   
   private String deleted;
+  
+
+  @ManyToMany(fetch=FetchType.LAZY)
+  @JoinTable(name = "posts_tags", joinColumns  = @JoinColumn(name="idPost", referencedColumnName = "idPost"),  inverseJoinColumns = @JoinColumn(name = "idTag", referencedColumnName = "idTag"))
+  private List<Tag> listTag;
+  
+ 
   
   // ------------------------
   // PUBLIC METHODS
@@ -121,6 +134,13 @@ public void setIdPost(int idPost) {
 	return user;
   }
   
+  public List<Tag> getlistTag() {
+	  return listTag;
+  }
+  
+  public void setListTag(List<Tag> listTag) {
+	  this.listTag = listTag;
+  }
   
 } // class Post
 

@@ -17,10 +17,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.anoki.simpleBoard.dao.PostDao;
+import com.anoki.simpleBoard.dao.PostsTagsDao;
+import com.anoki.simpleBoard.dao.TagDao;
 import com.anoki.simpleBoard.dao.UserDao;
 import com.anoki.simpleBoard.models.Post;
+import com.anoki.simpleBoard.models.Tag;
 //import com.anoki.simpleBoard.models.User;
 import com.anoki.simpleBoard.service.PostService;
+import com.anoki.simpleBoard.service.PostsTagsService;
 import com.anoki.simpleBoard.service.UserService;
 import com.anoki.simpleBoard.util.MyAccessDeniedHandler;
 
@@ -30,21 +34,28 @@ public class DefaultController {
 	
     @Autowired
 	PostService postService;
+    @Autowired
     UserDao userDao;
     @Autowired
     UserService userService;
+    @Autowired
+    PostsTagsDao postsTagsDao;
+    @Autowired
+    PostsTagsService postsTagsService;
+    @Autowired
+    TagDao tagDao;
     //User user;
     
     private static Logger logger = LoggerFactory.getLogger(DefaultController.class); 
 	
     @GetMapping("/")
     public String home1() {
-        return "home";
+        return "posts";
     }
 
     @GetMapping("/home")
     public String home() {
-        return "home";
+        return "posts";
     }
 
     @GetMapping("/admin")
@@ -73,14 +84,21 @@ public class DefaultController {
     	posts.addObject("postList", postService.findAll());
     	posts.addObject("post", new Post());
     	posts.addObject("userList", userService.findAll());    	
+        for(Post post : postService.findAll()) {
+        	for(Tag tag : post.getlistTag())
+        	logger.info(tag.getName());
+        }
     return posts;
 	}
 
     @PostMapping(path = "/updatePost", params="action=save")
-    public String submit(@ModelAttribute("post") Post post, BindingResult result, ModelAndView model) {
+    public String submit(@ModelAttribute("post") Post post, @RequestParam("tags") String tags, BindingResult result, ModelAndView model) {
         //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        //logger.info("logged user: " + auth.getName());
+        //logger.info("logged user: " + auth.getName());  	
     	postService.addPost(post);
+    	logger.info("tags passati" + tags);
+    	postsTagsService.mergeByName(tags);
+    	postsTagsService.addTagsComma(post, tags);
     	return "redirect:/posts";
     }
     
