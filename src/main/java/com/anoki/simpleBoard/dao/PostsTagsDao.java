@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.anoki.simpleBoard.models.Post;
 import com.anoki.simpleBoard.models.Tag;
 
+@Repository
+@Transactional
 public interface PostsTagsDao extends JpaRepository<Post, Integer>{
 	
 	public List<Tag> findByIdPost(Integer idPost);

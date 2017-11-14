@@ -57,7 +57,8 @@ public class Post {
   
 
   @ManyToMany(fetch=FetchType.LAZY)
-  @JoinTable(name = "posts_tags", joinColumns  = @JoinColumn(name="idPost", referencedColumnName = "idPost"),  inverseJoinColumns = @JoinColumn(name = "idTag", referencedColumnName = "idTag"))
+  @JoinTable(name = "posts_tags", joinColumns  = @JoinColumn(name="idPost", referencedColumnName = "idPost"),  
+  inverseJoinColumns = @JoinColumn(name = "idTag", referencedColumnName = "idTag"))
   private List<Tag> listTag;
   
  
