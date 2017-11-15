@@ -18,7 +18,7 @@ import com.anoki.simpleBoard.models.Tag;
 @Transactional
 public interface PostsTagsDao extends JpaRepository<Post, Integer>{
 	
-	public List<Tag> findByIdPost(Integer idPost);
+	public List<Tag> findByIdPost(int idPost);
 	
 	@Modifying
     @Query(value = "insert into posts_tags (id_post,id_tag) VALUES (:id_post,:id_tag)", nativeQuery = true)

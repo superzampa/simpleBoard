@@ -11,10 +11,12 @@ import com.anoki.simpleBoard.dao.UserDao;
 @Service("UserService")
 public class UserService{
 	
-	@Autowired
 	private UserDao userDao;
 	
-	
+	@Autowired
+	public void setUserDao(UserDao userDao){
+		this.userDao = userDao;
+	}
 	public List<User> findAll() {
 		return userDao.findAll();
 	}

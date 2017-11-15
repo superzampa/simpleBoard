@@ -12,10 +12,19 @@ import com.anoki.simpleBoard.models.Tag;
 
 @Service("PostsTagsService")
 public class PostsTagsService{
-	@Autowired
+
 	private PostsTagsDao postsTagsDao;
-	@Autowired
 	TagDao tagDao;
+	
+	@Autowired
+	public void setPostsTagsDao(PostsTagsDao postsTagsDao) {
+		this.postsTagsDao = postsTagsDao;
+	}
+	
+	@Autowired
+	public void setTagDao(TagDao tagDao) {
+		this.tagDao = tagDao;
+	}
 	
 	public List<Tag> getAllTags(Post post){
 		return postsTagsDao.findByIdPost(post.getIdPost());
@@ -24,14 +33,15 @@ public class PostsTagsService{
 	public void addTagsComma(Post post, String tags) {
 		String[] tagsArray = tags.split(",");
 		for (String tag : tagsArray) {
-			postsTagsDao.addPostTag(post.getIdPost(), tagDao.findByName(tag.trim()).getTagId());
+			postsTagsDao.addPostTag(post.getIdPost(), tagDao.findByName(tag.trim()).getIdTag());
 		}
 	}
 	
 	public void mergeByName(String tags) {
 		String[] tagsArray = tags.split(",");
 		for (String tag : tagsArray) {
-			if(tagDao.findByName(tag) == null) tagDao.addTag(tag.trim());
+			if(tagDao.findByName(tag.trim()) == null) 
+				tagDao.addTag(tag.trim());
 		}
 	}
 }

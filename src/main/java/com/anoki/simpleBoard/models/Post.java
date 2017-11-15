@@ -2,7 +2,6 @@ package com.anoki.simpleBoard.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,11 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 
@@ -84,14 +80,14 @@ public class Post {
 	this.hidden = hidden;
 	this.hiddenBy = hiddenBy;
 	this.deleted = deleted;
-}
+  }
 
 
-public int getIdPost() {
+  public int getIdPost() {
     return idPost;
   }
 
-public void setIdPost(int idPost) {
+  public void setIdPost(int idPost) {
     this.idPost = idPost;
   }
   

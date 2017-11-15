@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * An entity User composed by three fields (id, email, name).
  * The Entity annotation indicates that this class is a JPA entity.
@@ -44,11 +46,12 @@ public class User {
   // PUBLIC METHODS
   // ------------------------
   
+  @Autowired
   public User() {}
 
   // Getter and setter methods
 
-  public int getId() {
+  public int getIdUser() {
     return idUser;
   }
   

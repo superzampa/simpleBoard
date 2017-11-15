@@ -12,15 +12,36 @@
 	         <th class="col">Author</th>
 	         <th class="col">Text</th>
 	         <th class="col">Tags</th>
-	         <th class="col">Delete</th>
+	         <th class="col">Action</th>
+	      </tr>
+	      <tr>
+	      <form th:action="@{/searchPost}" th:object="${post}" method="post">
+	      <td>
+	      	     <select class="form-control" th:id="idUser" th:name="idUser" id="dropOperator">
+	      	     	<option th:value="0">Search by user...</option>
+				    <option th:each="user : ${userList}" th:value="${user.idUser}" th:text="${user.name}"></option>
+				 </select>
+	      </td>
+	      <td><input type="text" class="form-control" th:id="text" th:name="text" placeholder="Search Text..."/></td>
+	      <td>
+     			<select class="form-control" th:id="idTag" th:name="idTag" id="dropOperator">
+	      	     	<option th:value="0">Search by tag...</option>
+				    <option th:each="tag : ${tagList}" th:value="${tag.idTag}" th:text="${tag.name}"></option>
+				 </select>
+	      </td>
+	      <td class="col">
+	      	<input type="submit" class="btn btn-info" name="action" value="Search"/>
+	      	<a th:href="|@{/posts}|" class="btn btn-info">Reset filters</a>
+	      </td>
+	      </form>
 	      </tr>
 	      </thead>		      
 	      <tbody>
 	      <th:block scope="row" th:each="post : ${postList}">
 	      	 <tr>
-	            <td th:text="${post.getUser().getName()}"></td>
-	            <td th:text="${post.getText()}"></td>
-	            <td> <span th:each="tag, iterStat : ${post.getlistTag()}" th:text="!${iterStat.last} ? ${tag.getName()} + ',': ${tag.getName()}"></span> </td>
+	            <td th:text="${post.user.name}"></td>
+	            <td th:text="${post.text}"></td>
+	            <td> <span th:each="tag, iterStat : ${post.getlistTag()}" th:text="!${iterStat.last} ? ${tag.name} + ',': ${tag.name}"></span> </td>
 	            <td>
 	             <form th:action="@{/deletePost}" th:object="${post}" method="post">
 		            <input type="hidden" th:value="${post.idPost}" th:id="idPost" th:name="idPost" />
@@ -37,7 +58,7 @@
 	         	<!--<input type="text" class="form-control" th:field="*{id_post}" id="author" placeholder="Insert new author..."></input> -->
 	         	<select class="form-control" th:field="*{user}" id="dropOperator">
 				    <option value="0" text="Select a user" ></option>
-				    <option th:each="user : ${userList}" th:value="${user.getId()}" th:text="${user.getName()}"></option>
+				    <option th:each="user : ${userList}" th:value="${user.idUser}" th:text="${user.name}"></option>
 				 </select>
 	         </td>
 	         <td class="col">
@@ -49,7 +70,7 @@
 	         <input type="text" class="form-control" th:id="tags" th:name="tags" placeholder="Insert tags separated by comma..."/>
 	         </td>
 	         
-	         <td class="col"><input type="submit" class="btn btn-info" name="action" value="save"/></td>
+	         <td class="col"><input type="submit" class="btn btn-info" name="action" value="Save"/></td>
 	      </form>
 	      </tr>
 	      

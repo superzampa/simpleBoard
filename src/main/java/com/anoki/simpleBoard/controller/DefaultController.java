@@ -1,50 +1,36 @@
 package com.anoki.simpleBoard.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.anoki.simpleBoard.dao.PostDao;
-import com.anoki.simpleBoard.dao.PostsTagsDao;
-import com.anoki.simpleBoard.dao.TagDao;
-import com.anoki.simpleBoard.dao.UserDao;
 import com.anoki.simpleBoard.models.Post;
 import com.anoki.simpleBoard.models.Tag;
 //import com.anoki.simpleBoard.models.User;
 import com.anoki.simpleBoard.service.PostService;
 import com.anoki.simpleBoard.service.PostsTagsService;
+import com.anoki.simpleBoard.service.TagService;
 import com.anoki.simpleBoard.service.UserService;
-import com.anoki.simpleBoard.util.MyAccessDeniedHandler;
 
 @Controller
 public class DefaultController {
 
-	
-    @Autowired
+	@Autowired
 	PostService postService;
-    @Autowired
-    UserDao userDao;
     @Autowired
     UserService userService;
     @Autowired
-    PostsTagsDao postsTagsDao;
-    @Autowired
     PostsTagsService postsTagsService;
     @Autowired
-    TagDao tagDao;
-    //User user;
+    TagService tagService;
+
     
     private static Logger logger = LoggerFactory.getLogger(DefaultController.class); 
 	
@@ -83,11 +69,8 @@ public class DefaultController {
     	ModelAndView posts = new ModelAndView("posts");
     	posts.addObject("postList", postService.findAll());
     	posts.addObject("post", new Post());
-    	posts.addObject("userList", userService.findAll());    	
-        for(Post post : postService.findAll()) {
-        	for(Tag tag : post.getlistTag())
-        	logger.info(tag.getName());
-        }
+    	posts.addObject("userList", userService.findAll()); 
+    	posts.addObject("tagList", tagService.findAll());
     return posts;
 	}
 
@@ -96,7 +79,7 @@ public class DefaultController {
         //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //logger.info("logged user: " + auth.getName());  	
     	postService.addPost(post);
-    	logger.info("tags passati" + tags);
+    	logger.info("tags passati: " + tags);
     	postsTagsService.mergeByName(tags);
     	postsTagsService.addTagsComma(post, tags);
     	return "redirect:/posts";
@@ -105,11 +88,26 @@ public class DefaultController {
     @PostMapping(path = "/deletePost")
     public String deletePost(@RequestParam("idPost") Integer idPost) {
         //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("post: " + idPost);
+        logger.info("idPost: " + idPost);
     	postService.deletePostByIdPost(idPost);
+    	//deleting orphans tags that do not belong to any post
+    	tagService.deleteOrphans();
     	return "redirect:/posts";
     }
-   
+    
+    @PostMapping(path = "/searchPost")
+    public ModelAndView seatchPost(@RequestParam("idUser") Integer idUser, @RequestParam("text") String text, @RequestParam("idTag") Integer idTag) {
+    	ModelAndView posts = new ModelAndView("posts");
+    	//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("idUser: " + idUser + "text: " + text + "tagId :" + idTag);
+        posts.addObject("postList", postService.searchPosts(idUser, text, idTag));
+    	posts.addObject("post", new Post());
+    	posts.addObject("userList", userService.findAll()); 
+    	posts.addObject("tagList", tagService.findAll());
+    	
+        //return "redirect:/posts";
+    	return posts;
+    }
     
     @GetMapping("/403")
     public String error403() {
