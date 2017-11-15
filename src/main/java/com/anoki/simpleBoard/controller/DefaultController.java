@@ -95,7 +95,7 @@ public class DefaultController {
     	return "redirect:/posts";
     }
     
-    @PostMapping(path = "/searchPost")
+    @PostMapping(path = "/posts")
     public ModelAndView seatchPost(@RequestParam("idUser") Integer idUser, @RequestParam("text") String text, @RequestParam("idTag") Integer idTag) {
     	ModelAndView posts = new ModelAndView("posts");
     	//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
