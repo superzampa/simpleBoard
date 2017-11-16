@@ -68,6 +68,10 @@ public class User {
     return email;
   }
   
+  public String getUsername() {
+	  return username;
+  }
+  
   public void setEmail(String email) {
     this.email = email;
   }
@@ -81,7 +85,7 @@ public class User {
 	this.userType = userType;
   }
   
-  public String getUserType(String userType) {
+  public String getUserType() {
 	    return userType;
   }
   

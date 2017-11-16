@@ -6,6 +6,7 @@
    <body>
    <div th:replace="fragments/header :: header"/>
       <div class = "container">
+      <form th:action="@{/posts}" th:object="${post}" method="post">
       <table class="table">
 	      <thead class="thead-default">
 	      <tr>   
@@ -15,7 +16,7 @@
 	         <th class="col">Action</th>
 	      </tr>
 	      <tr>
-	      <form th:action="@{/posts}" th:object="${post}" method="post">
+	      
 	      <td>
 	      	     <select class="form-control" th:id="idUser" th:name="idUser" id="dropOperator">
 	      	     	<option th:value="0">Search by user...</option>
@@ -30,10 +31,10 @@
 				 </select>
 	      </td>
 	      <td class="col">
-	      	<input type="submit" class="btn btn-info" name="action" value="Search"/>
+	      	<input type="submit" class="btn btn-info" name="action" value="search"/>
 	      	<a th:href="|@{/posts}|" class="btn btn-info">Reset filters</a>
 	      </td>
-	      </form>
+<!-- 	      </form> -->
 	      </tr>
 	      </thead>		      
 	      <tbody>
@@ -43,39 +44,42 @@
 	            <td th:text="${post.text}"></td>
 	            <td> <span th:each="tag, iterStat : ${post.getlistTag()}" th:text="!${iterStat.last} ? ${tag.name} + ',': ${tag.name}"></span> </td>
 	            <td>
-	             <form th:action="@{/deletePost}" th:object="${post}" method="post">
+ 	             <form th:action="@{/deleteHidePost}" th:object="${post}" method="post">
 		            <input type="hidden" th:value="${post.idPost}" th:id="idPost" th:name="idPost" />
-		            <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+		            <button th:if="${post.user.username == loggedUser.username}" type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+		            <button th:if="${post.user.username == loggedUser.username or loggedUser.userType == 'ROLE_ADMIN'}" type="submit" name="action" value="hide" class="btn btn-danger">Hide</button>
 					<!--<a th:href="|@{/deletePost/${post.getIdPost()}}|" class="btn btn-danger">Delete</a> -->
 		        </form>
 	            </td>
 	            
 	         </tr>	         
 	      </th:block>
+	      <tr><td colspan="3" style="font-weight:bold">Insert new post</td></tr>
 	      <tr>   
-	      <form action="#" th:action="@{/updatePost}" th:object="${post}" method="post">
-	         <td class="col">
-	         	<!--<input type="text" class="form-control" th:field="*{id_post}" id="author" placeholder="Insert new author..."></input> -->
-	         	<select class="form-control" th:field="*{user}" id="dropOperator">
-				    <option value="0" text="Select a user" ></option>
-				    <option th:each="user : ${userList}" th:value="${user.idUser}" th:text="${user.name}"></option>
-				 </select>
+<!-- 	      <form action="#" th:action="@{/updatePost}" th:object="${post}" method="post"> -->
+	         <input type="hidden" th:id="idUserNew" th:name="idUserNew" th:value="${post.user.idUser}"/>
+	         <td class="col" th:text="${post.user.name}">
+<!-- 	         	<select class="form-control" th:field="*{user}" id="dropOperator"> -->
+<!-- 				    <option value="0" text="Select a user" ></option> -->
+<!-- 				    <option th:each="user : ${userList}" th:value="${user.idUser}" th:text="${user.name}"></option> -->
+<!-- 				 </select> -->
 	         </td>
 	         <td class="col">
 	         
-	         	<input type="text" class="form-control" th:field="*{text}" placeholder="Insert new text..."/>
+	         	<input type="text" class="form-control" th:id="textNew" th:name="textNew" placeholder="Insert new text..."/>
 
 	         </td>
 	         <td>
 	         <input type="text" class="form-control" th:id="tags" th:name="tags" placeholder="Insert tags separated by comma..."/>
 	         </td>
 	         
-	         <td class="col"><input type="submit" class="btn btn-info" name="action" value="Save"/></td>
-	      </form>
+	         <td class="col"><input type="submit" class="btn btn-info" name="action" value="save"/></td>
+
 	      </tr>
 	      
 	      </tbody>
       </table>
+     </form>
       </div>     
 <div th:replace="fragments/footer :: footer"/>
 

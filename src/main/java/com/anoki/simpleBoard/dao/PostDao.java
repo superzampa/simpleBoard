@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,11 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 
     @Transactional
     public Long deleteByIdPost(Integer idPost);
+    
+	@Modifying
+    @Query(value = "update posts set hidden = 'Y', hidden_by = :idUser where id_post = :idPost", nativeQuery = true)
+    @Transactional
+    public void hidePost(@Param("idUser") int idUser, @Param("idPost") int idPost);
     
     @Query(value = "select distinct p.id_post from posts p join users u on u.id_user = p.id_user \r\n" + 
     		"left join posts_tags pt on pt.id_post = p.id_post \r\n" + 

@@ -49,9 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-					.antMatchers("/", "/home", "/about", "/webjars/**", "/posts", "/updatePost", "/deletePost", "/searchPost").permitAll()
-					.antMatchers("/admin/**").hasRole("ADMIN")
-					.antMatchers("/user/**").hasRole("USER")
+					.antMatchers("/", "/home", "/about", "/webjars/**", "/css/**", "/resources/**").permitAll()
+					//.antMatchers("/posts", "/updatePost", "/deletePost", "/searchPost").hasRole("ADMIN")
+					//.antMatchers("/posts", "/updatePost", "/deletePost", "/searchPost").hasRole("USER")
 					.anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-    }
+
+	}
 
 }

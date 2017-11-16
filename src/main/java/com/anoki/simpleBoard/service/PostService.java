@@ -46,6 +46,14 @@ public class PostService{
 		postDao.deleteByIdPost(idPost);
 	}
 	
+	public Post findByIdPost(int idPost) {
+		return postDao.findByIdPost(idPost);
+	}
+	
+	public void hidePost(int idPost, int idUser) {
+		postDao.hidePost(idPost, idUser);
+	}
+	
 	@Autowired
 	public void setPostDao(PostDao postDao) {
 		this.postDao = postDao;

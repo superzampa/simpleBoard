@@ -69,6 +69,10 @@ public class Post {
     this.user =  user;
     this.text = text;
   }
+  
+  public Post(User user) {
+	  this.user = user;
+  }
 
   
   // Getter and setter methods
