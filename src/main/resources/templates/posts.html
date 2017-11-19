@@ -6,7 +6,7 @@
    <body>
    <div th:replace="fragments/header :: header"/>
       <div class = "container">
-      <form th:action="@{/posts}" th:object="${post}" method="post">
+      <form name = "posts" th:action="@{/posts}" th:object="${post}" method="post">
       <table class="table">
 	      <thead class="thead-default">
 	      <tr>   
@@ -41,10 +41,14 @@
 	      <th:block scope="row" th:each="post : ${postList}">
 	      	 <tr>
 	            <td th:text="${post.user.name}"></td>
-	            <td th:text="${post.text}"></td>
-	            <td> <span th:each="tag, iterStat : ${post.getlistTag()}" th:text="!${iterStat.last} ? ${tag.name} + ',': ${tag.name}"></span> </td>
+	            
 	            <td>
- 	             <form th:action="@{/deleteHidePost}" th:object="${post}" method="post">
+		            <span th:if="${post.hidden} != 'Y'" th:text="${post.text}"></span>
+		            <span th:if="${post.hidden} == 'Y'">This post has been hidden</span>
+	             </td>
+	            <td> <span th:each="tag, iterStat : ${post.getListTag()}" th:text="!${iterStat.last} ? ${tag.name} + ',': ${tag.name}"></span> </td>
+	            <td>
+ 	             <form name="deleteHide" th:action="@{/deleteHidePost}" method="post">
 		            <input type="hidden" th:value="${post.idPost}" th:id="idPost" th:name="idPost" />
 		            <button th:if="${post.user.username == loggedUser.username}" type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
 		            <button th:if="${post.user.username == loggedUser.username or loggedUser.userType == 'ROLE_ADMIN'}" type="submit" name="action" value="hide" class="btn btn-danger">Hide</button>

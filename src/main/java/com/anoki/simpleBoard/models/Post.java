@@ -52,7 +52,7 @@ public class Post {
   private String deleted;
   
 
-  @ManyToMany(fetch=FetchType.LAZY)
+  @ManyToMany(fetch=FetchType.EAGER)
   @JoinTable(name = "posts_tags", joinColumns  = @JoinColumn(name="idPost", referencedColumnName = "idPost"),  
   inverseJoinColumns = @JoinColumn(name = "idTag", referencedColumnName = "idTag"))
   private List<Tag> listTag;
@@ -103,31 +103,31 @@ public class Post {
 	return text;
   }
 
-  public void settext(String text) {
+  public void setText(String text) {
     this.text = text;
   }  
 
-  public String gethidden() {
+  public String getHidden() {
     return hidden;
   }
   
-  public void sethidden(String hidden) {
+  public void setHidden(String hidden) {
 	this.hidden = hidden;
   }
   
-  public String gethiddenBy() {
+  public String getHiddenBy() {
     return hiddenBy;
   }
   
-  public void sethiddenBy(String hiddenBy) {
+  public void setHiddenBy(String hiddenBy) {
 	this.hiddenBy = hiddenBy;
   }
   
-  public String getdeleted() {
+  public String getDeleted() {
 	return deleted;
   }
   
-  public void setdeleted(String deleted) {
+  public void setDeleted(String deleted) {
 	this.deleted = deleted;
   }
   
@@ -135,7 +135,7 @@ public class Post {
 	return user;
   }
   
-  public List<Tag> getlistTag() {
+  public List<Tag> getListTag() {
 	  return listTag;
   }
   
